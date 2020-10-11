@@ -15,7 +15,7 @@ const handleStyle = {
     width(value) {
         this.element.style.width= value + 'px';
     },
-    texto(value) {
+    text(value) {
         this.element.innerText= value;
     },
     color(value) {
@@ -38,9 +38,28 @@ const handleStyle = {
 function handleChange (event) {
     const name =event.target.name;
     const value =event.target.value;
+
     handleStyle[name](value);
+    saveValues(name, value);
+    showCss();
+  
+}
+
+function saveValues(name, value) {
+    localStorage[name] = value;
+}
+
+function setValues() {
+    const propeties = Object.keys(localStorage);
+    propeties.forEach(propetie => {
+        handleStyle[propetie](localStorage[propetie]);
+        controles.elements[propetie].value = localStorage[propetie];
+    });
+
     showCss();
 }
+
+setValues();
 
 function showCss() {
     cssText.innerHTML = '<span>' + btn.style.cssText.split('; ').join(';</span><span>');
